@@ -552,54 +552,6 @@ class _TripScreenState extends State<TripScreen> {
     }
   }
 
-  void _showWarningDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Color(0xFF1E1E1E),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        title: Text(
-          'Warning',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: Text(
-          'You are about to perform a critical action. Are you sure you want to proceed?',
-          style: TextStyle(
-            color: Colors.white70,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              'Cancel',
-              style: TextStyle(color: Colors.white70),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // Perform the critical action here
-              Navigator.pop(context);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            child: Text('Proceed'),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -621,7 +573,11 @@ class _TripScreenState extends State<TripScreen> {
               _buildActionButton(),
               SizedBox(height: 16),
               ElevatedButton(
-                onPressed: _showWarningDialog,
+                onPressed:  () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) =>  WarningScreen()),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red.withOpacity(0.1),
                   foregroundColor: Colors.red,
@@ -1334,4 +1290,32 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-
+class WarningScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Warning'),
+        centerTitle: true,
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Warning',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
